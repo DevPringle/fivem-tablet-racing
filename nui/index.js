@@ -70,3 +70,15 @@ window.addEventListener('keydown', async ({ key }) => {
     if (which == 'escape')
         return await app.post('close');
 });
+
+window.addEventListener('message', function(event) {
+    var data = event.data;
+
+    if (data.action === 'updateRaceLobby') {
+        app.racePlayers  = data.players;
+        app.raceName     = data.raceName;
+        app.raceRoute    = data.route;
+        app.raceBuyIn    = data.buyIn;
+        app.raceCountdown = data.countdown;
+    }
+});
