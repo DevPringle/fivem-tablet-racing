@@ -6,6 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
     <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
     
     <link rel='stylesheet' href='style.css'>
@@ -72,7 +73,114 @@
                         <p><b>[N]</b> - Talk</p>
                     </div>
                 </div>
-                
+
+                <!-- ═══════════════════════════════════════ -->
+                <!-- STREET RACING APP                       -->
+                <!-- ═══════════════════════════════════════ -->
+                <div class='page' id='racing' v-if='currentPage == "racing"'>
+                    <div class='content racing-app'>
+
+                        <!-- Header -->
+                        <div class='race-header'>
+                            <div class='race-eyebrow'>Race Lobby</div>
+                            <div class='race-title'>{{ raceName }}</div>
+                            <div class='race-meta'>
+                                <span>{{ raceRoute }}</span>
+                                <span class='meta-sep'>·</span>
+                                <span>Buy-In: {{ raceBuyIn }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Countdown -->
+                        <div class='race-countdown-strip'>
+                            <span class='cd-label'>Race starts when all players ready</span>
+                            <span class='cd-timer'>{{ raceCountdown }}</span>
+                        </div>
+
+                        <!-- Player slots -->
+                        <div class='race-section-label'>
+                            <span>Participants</span>
+                            <span class='race-slot-count'>{{ racePlayers.filter(p => !p.empty).length }} / {{ racePlayers.length }}</span>
+                        </div>
+
+                        <div class='race-player-grid'>
+                            <div
+                                v-for='(player, index) in racePlayers'
+                                :key='index'
+                                :class="[
+                                    'race-player-row',
+                                    player.empty  ? 'rp-empty'     : '',
+                                    player.isHost ? 'rp-host'      : '',
+                                    !player.empty && player.ready  ? 'rp-ready'     : '',
+                                    !player.empty && !player.ready ? 'rp-not-ready' : ''
+                                ]"
+                            >
+                                <div class='rp-slot'>{{ String(index + 1).padStart(2, '0') }}</div>
+                                <div class='rp-swatch' :style="{ background: player.color || '#1a1e28' }"></div>
+                                <div class='rp-name-block'>
+                                    <div class='rp-name'>{{ player.empty ? 'OPEN SLOT' : player.name }}</div>
+                                    <div
+                                        class='rp-tag'
+                                        :class="{
+                                            'rp-tag-host': player.isHost,
+                                            'rp-tag-you':  player.isYou
+                                        }"
+                                    >
+                                        <template v-if='player.isHost'>HOST</template>
+                                        <template v-else-if='player.isYou'>YOU</template>
+                                        <template v-else-if='!player.empty'>Racer</template>
+                                    </div>
+                                </div>
+                                <div class='rp-vehicle'>{{ player.vehicle || '—' }}</div>
+                                <div class='rp-class' :class="'rp-class-' + (player.class || 'c').toLowerCase()">
+                                    {{ player.class ? 'CLASS ' + player.class : '—' }}
+                                </div>
+                                <div
+                                    class='rp-ready-badge'
+                                    :class="{
+                                        'rpb-ready':     !player.empty && player.ready,
+                                        'rpb-not-ready': !player.empty && !player.ready,
+                                        'rpb-waiting':    player.empty
+                                    }"
+                                >
+                                    <span class='rpb-dot'></span>
+                                    <template v-if='player.empty'>Waiting</template>
+                                    <template v-else-if='player.ready'>Ready</template>
+                                    <template v-else>Not Ready</template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action bar -->
+                        <div class='race-action-bar'>
+                            <div class='race-ready-summary'>
+                                <div class='rrs-stat rrs-green'>
+                                    <span class='rrs-num'>{{ racePlayers.filter(p => !p.empty && p.ready).length }}</span>
+                                    <span class='rrs-label'>Ready</span>
+                                </div>
+                                <div class='rrs-divider'></div>
+                                <div class='rrs-stat rrs-red'>
+                                    <span class='rrs-num'>{{ racePlayers.filter(p => !p.empty && !p.ready).length }}</span>
+                                    <span class='rrs-label'>Not Ready</span>
+                                </div>
+                                <div class='rrs-divider'></div>
+                                <div class='rrs-stat'>
+                                    <span class='rrs-num rrs-dim'>{{ racePlayers.filter(p => p.empty).length }}</span>
+                                    <span class='rrs-label'>Open</span>
+                                </div>
+                            </div>
+                            <div class='race-btn-group'>
+                                <button class='race-btn race-btn-leave' @click="post('leaveRace')">Leave</button>
+                                <button class='race-btn race-btn-ready' @click="post('toggleReady')">&#9654; Mark Ready</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ═══════════════════════════════════════ -->
+                <!-- END STREET RACING APP                   -->
+                <!-- ═══════════════════════════════════════ -->
+
             </div>
             <div class='tablet-footer'>
                 <div class='line' v-on:click='switchPage("main")'></div>
