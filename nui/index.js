@@ -19,6 +19,7 @@ const app = new Vue({
         Applications: [
             { name: 'Information', icon: 'img/info.svg', href: 'info' }, 
             { name: 'Controls', icon: 'img/controls.svg', href: 'keybinds' }
+            { name: 'Street Racing', icon: 'img/racing.svg', href: 'racing' }
         ]
     },
     mounted() {
