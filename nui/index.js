@@ -18,9 +18,16 @@ const app = new Vue({
         ],
         Applications: [
             { name: 'Information', icon: 'img/info.svg', href: 'info' }, 
-            { name: 'Controls', icon: 'img/controls.svg', href: 'keybinds' }
+            { name: 'Controls', icon: 'img/controls.svg', href: 'keybinds' },
             { name: 'Street Racing', icon: 'img/racing.svg', href: 'racing' }
-        ]
+        ],
+        // ── Street Racing ──────────────────────────────
+        racePlayers: [],
+        raceName: 'MIDNIGHT RUN',
+        raceRoute: '—',
+        raceBuyIn: '—',
+        raceCountdown: '—',
+        // ───────────────────────────────────────────────
     },
     mounted() {
         let initial = document.getElementById(this.currentPage);
@@ -75,10 +82,10 @@ window.addEventListener('message', function(event) {
     var data = event.data;
 
     if (data.action === 'updateRaceLobby') {
-        app.racePlayers  = data.players;
-        app.raceName     = data.raceName;
-        app.raceRoute    = data.route;
-        app.raceBuyIn    = data.buyIn;
+        app.racePlayers   = data.players;
+        app.raceName      = data.raceName;
+        app.raceRoute     = data.route;
+        app.raceBuyIn     = data.buyIn;
         app.raceCountdown = data.countdown;
     }
 });
