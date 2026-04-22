@@ -74,13 +74,9 @@
                     </div>
                 </div>
 
-                <!-- ═══════════════════════════════════════ -->
-                <!-- STREET RACING APP                       -->
-                <!-- ═══════════════════════════════════════ -->
                 <div class='page' id='racing' v-if='currentPage == "racing"'>
                     <div class='content racing-app'>
 
-                        <!-- Header -->
                         <div class='race-header'>
                             <div class='race-eyebrow'>Race Lobby</div>
                             <div class='race-title'>{{ raceName }}</div>
@@ -91,13 +87,11 @@
                             </div>
                         </div>
 
-                        <!-- Countdown -->
                         <div class='race-countdown-strip'>
                             <span class='cd-label'>Race starts when all players ready</span>
                             <span class='cd-timer'>{{ raceCountdown }}</span>
                         </div>
 
-                        <!-- Player slots -->
                         <div class='race-section-label'>
                             <span>Participants</span>
                             <span class='race-slot-count'>{{ racePlayers.filter(p => !p.empty).length }} / {{ racePlayers.length }}</span>
@@ -151,7 +145,6 @@
                             </div>
                         </div>
 
-                        <!-- Action bar -->
                         <div class='race-action-bar'>
                             <div class='race-ready-summary'>
                                 <div class='rrs-stat rrs-green'>
@@ -177,9 +170,6 @@
 
                     </div>
                 </div>
-                <!-- ═══════════════════════════════════════ -->
-                <!-- END STREET RACING APP                   -->
-                <!-- ═══════════════════════════════════════ -->
 
             </div>
             <div class='tablet-footer'>
